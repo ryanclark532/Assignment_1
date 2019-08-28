@@ -4,13 +4,13 @@ import java.util.ListIterator;
 public class Car {
     String type;
     double currentSpeed;
-    double speedModifier;
     double x,y;
     RoadList roadList;
+    Road current;
+
     public static void main(String[] args) {
 
     }
-
     public  Car(String type, double currentSpeed, int x, int y,RoadList roadList) {
         this.type = type;
         this.currentSpeed = currentSpeed;
@@ -26,18 +26,35 @@ public class Car {
     }
 
     public void updatePosition(Road road){
-        ListIterator<Road> iterator=this.roadList.index.listIterator();
-        while (iterator.hasNext()){
-            System.out.println(iterator.next());
+        int in=1;
+        for(Road i:this.roadList.index){
+            if ((i.xStart<=this.x) && (i.xFinish>=this.x)){
+                current=i;
+                break;
+            }
+            in+=1;
         }
-        if(road.orientation.equals("vertical")){
-            this.y+=1;
+        if (current.xFinish==this.x){
+            for (Road next : this.roadList.index) {
+                if (next instanceof TrafficLight) {
+                    if (((TrafficLight) next).frontLight.equals("red")) {
+                        this.slowDown();
+                    }
+                    if (((TrafficLight) next).frontLight.equals("green")) {
+                        this.speedUp();
+                    }
+                }
+            }
         }
-        else {
-            this.x+=1;
+        if(this.currentSpeed==60){
+            if(road.orientation.equals("vertical")){
+                this.y+=1;
+            }
+            else {
+                this.x+=1;
+            }
         }
-
+    }
     }
 
 
-}

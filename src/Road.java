@@ -1,7 +1,7 @@
 public class Road {
-    public int length;
-    public int xStart,yStart;
-    public int xFinish,yFinish;
+    public double length;
+    public double xStart,yStart;
+    public double xFinish,yFinish;
     public String orientation;
 
     public Road(int length, int x, int y, String orientation) {
