@@ -1,44 +1,43 @@
 import java.util.Random;
 public class TrafficLight extends Road {
-
-    String frontLight;
+    String topLight;
     String leftLight;
     String rightLight;
-    String backLight;
+    String bottomLight;
 
     public TrafficLight() {
-        super(10,32,1,"horizontal");
-        this.frontLight = "red";
+        super(10, 30, 1, "horizontal");
+        this.topLight = "red";
         this.leftLight = "red";
         this.rightLight = "red";
-        this.backLight = "red";
+        this.bottomLight = "red";
     }
     public void change(){
         Random random=new Random();
         switch (random.nextInt(4)){
             case 1:
-                this.frontLight = "green";
+                this.topLight = "green";
                 this.leftLight = "red";
                 this.rightLight = "red";
-                this.backLight = "red";
+                this.bottomLight = "red";
                 break;
             case 2:
-                this.frontLight = "red";
+                this.topLight = "red";
                 this.leftLight = "green";
                 this.rightLight = "red";
-                this.backLight = "red";
+                this.bottomLight = "red";
                 break;
             case 3:
-                this.frontLight = "red";
+                this.topLight = "red";
                 this.leftLight = "red";
                 this.rightLight = "green";
-                this.backLight = "red";
+                this.bottomLight = "red";
                 break;
             case 4:
-                this.frontLight = "red";
+                this.topLight = "red";
                 this.leftLight = "red";
                 this.rightLight = "red";
-                this.backLight = "green";
+                this.bottomLight = "green";
                 break;
         }
     }

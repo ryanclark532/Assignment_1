@@ -1,59 +1,64 @@
-import java.util.ArrayList;
-import java.util.ListIterator;
-
 public class Car {
     String type;
     double currentSpeed;
     double x,y;
-    RoadList roadList;
-    Road current;
-
+    private Road current;
     public static void main(String[] args) {
 
     }
-    public  Car(String type, double currentSpeed, int x, int y,RoadList roadList) {
+
+    public Car(String type, double currentSpeed, double x, double y) {
         this.type = type;
         this.currentSpeed = currentSpeed;
         this.x = x;
         this.y = y;
-        this.roadList=roadList;
+
     }
-    public void speedUp(){
+
+    private void speedUp() {
         this.currentSpeed=60;
     }
-    public void slowDown(){
+
+    private void slowDown() {
         this.currentSpeed=0;
     }
 
-    public void updatePosition(Road road){
-        int in=1;
-        for(Road i:this.roadList.index){
-            if ((i.xStart<=this.x) && (i.xFinish>=this.x)){
-                current=i;
-                break;
+    private void currentRoad() {
+        for (Road i : RoadList.index) {
+            if (((i.xStart <= this.x) && (i.xFinish >= this.x)) && ((i.yStart <= this.y) && (i.yFinish >= this.y))) {
+                if (i instanceof TrafficLight) {
+                    i = i;
+                    this.current = i;
+                } else {
+                    this.current = i;
+                }
+
             }
-            in+=1;
         }
-        if (current.xFinish==this.x){
-            for (Road next : this.roadList.index) {
-                if (next instanceof TrafficLight) {
-                    if (((TrafficLight) next).frontLight.equals("red")) {
-                        this.slowDown();
-                    }
-                    if (((TrafficLight) next).frontLight.equals("green")) {
-                        this.speedUp();
-                    }
+
+    }
+
+    public void updatePosition() {
+        currentRoad();
+        if ((this.current.xFinish == this.x) && (this.current.yFinish == this.y)) {
+            Road next = RoadList.index.get(RoadList.index.indexOf(current) + 1);
+            System.out.println(next);
+            if (next instanceof TrafficLight) {
+                if (((TrafficLight) next).leftLight.equals("red")) {
+                    this.slowDown();
+                } else if (((TrafficLight) next).leftLight.equals("green")) {
+                    this.speedUp();
                 }
             }
         }
-        if(this.currentSpeed==60){
-            if(road.orientation.equals("vertical")){
-                this.y+=1;
-            }
-            else {
-                this.x+=1;
+        if (this.currentSpeed == 60) {
+            if (current.orientation.equals("horizontal")) {
+                this.x += 1;
+            } else if (current.orientation.equals("vertical")) {
+                this.y += 1;
             }
         }
+
     }
     }
 
