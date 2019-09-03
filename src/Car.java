@@ -27,7 +27,6 @@ public class Car {
         for (Road i : RoadList.index) {
             if (((i.xStart <= this.x) && (i.xFinish >= this.x)) && ((i.yStart <= this.y) && (i.yFinish >= this.y))) {
                 if (i instanceof TrafficLight) {
-                    i = i;
                     this.current = i;
                 } else {
                     this.current = i;

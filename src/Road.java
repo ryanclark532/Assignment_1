@@ -1,5 +1,5 @@
 public class Road {
-    public double length;
+    private double length;
     public double xStart,yStart;
     public double xFinish,yFinish;
     public String orientation;
@@ -20,11 +20,11 @@ public class Road {
 
     }
 
-    public void setxFinish(double xFinish) {
+    private void setxFinish(double xFinish) {
         this.xFinish = xFinish;
     }
 
-    public void setyFinish(double yFinish) {
+    private void setyFinish(double yFinish) {
         this.yFinish = yFinish;
     }
 }

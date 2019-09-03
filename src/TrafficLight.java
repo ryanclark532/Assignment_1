@@ -1,9 +1,9 @@
 import java.util.Random;
 public class TrafficLight extends Road {
-    String topLight;
-    String leftLight;
-    String rightLight;
-    String bottomLight;
+    public String topLight;
+    public String leftLight;
+    public String rightLight;
+    public String bottomLight;
 
     public TrafficLight() {
         super(10, 30, 1, "horizontal");
