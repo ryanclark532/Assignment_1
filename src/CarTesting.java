@@ -7,13 +7,13 @@ public class CarTesting {
     public void defaultTest() {
         Road road = new Road(30, 0, 0, "horizontal");
         Road up = new Road(30, 40, 0, "vertical");
-        TrafficLight trafficLight = new TrafficLight();
+        TrafficLight trafficLight = new TrafficLight(10, 30, 0, "horizontal");
         RoadList list = new RoadList();
         list.addElement(road);
         list.addElement(trafficLight);
         list.addElement(up);
         Road last = RoadList.index.get(RoadList.index.size() - 1);
-        Car car = new Car("Car", 60.00, 0, 0);
+        Car car = new Car("Car", 60.00, 0, 0, true);
         assertEquals(0, car.x, 0);
         assertEquals(0, car.y, 0);
         car.updatePosition();

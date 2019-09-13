@@ -5,8 +5,8 @@ public class TrafficLight extends Road {
     public String rightLight;
     public String bottomLight;
 
-    public TrafficLight() {
-        super(10, 30, 1, "horizontal");
+    public TrafficLight(int length, double xStart, double yStart, String orientation) {
+        super(length, xStart, yStart, orientation);
         this.topLight = "red";
         this.leftLight = "red";
         this.rightLight = "red";

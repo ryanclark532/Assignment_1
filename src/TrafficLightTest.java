@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 public class TrafficLightTest {
     @Test
     public void defaultTest() {
-        TrafficLight trafficLight = new TrafficLight();
+        TrafficLight trafficLight = new TrafficLight(10, 30, 0, "horizontal");
         assertEquals("red", trafficLight.leftLight);
         assertEquals("red", trafficLight.topLight);
         assertEquals("red", trafficLight.bottomLight);

@@ -3,24 +3,27 @@ public class Car {
     double currentSpeed;
     double x,y;
     private Road current;
-    public static void main(String[] args) {
+    private boolean direction;
 
-    }
-
-    public Car(String type, double currentSpeed, double x, double y) {
+    public Car(String type, double currentSpeed, double x, double y, boolean direction) {
         this.type = type;
         this.currentSpeed = currentSpeed;
         this.x = x;
         this.y = y;
-
+        this.direction = direction;
     }
 
     private void speedUp() {
-        this.currentSpeed=60;
+        if (this.currentSpeed < 60) {
+            this.currentSpeed += 15;
+        }
     }
 
     private void slowDown() {
-        this.currentSpeed=0;
+        if (this.currentSpeed > 0) {
+            this.currentSpeed -= 15;
+        }
+
     }
 
     private void currentRoad() {
@@ -31,34 +34,52 @@ public class Car {
                 } else {
                     this.current = i;
                 }
-
             }
         }
 
     }
 
     public void updatePosition() {
-        currentRoad();
-        if ((this.current.xFinish == this.x) && (this.current.yFinish == this.y)) {
+        this.currentRoad();
+        if (this.direction) {
             Road next = RoadList.index.get(RoadList.index.indexOf(current) + 1);
-            System.out.println(next);
-            if (next instanceof TrafficLight) {
-                if (((TrafficLight) next).leftLight.equals("red")) {
+            if ((next instanceof TrafficLight) && ((TrafficLight) next).leftLight.equals("red")) {
+                if ((this.x >= (this.current.xFinish - 4)) && ((this.current.yFinish) == this.y)) {
                     this.slowDown();
-                } else if (((TrafficLight) next).leftLight.equals("green")) {
+                }
+            } else {
                     this.speedUp();
+                }
+
+            if (this.currentSpeed > 0) {
+                if (current.orientation.equals("horizontal")) {
+                    this.x += 1;
+                } else if (current.orientation.equals("vertical")) {
+                    this.y += 1;
+                }
+            }
+
+        } else {
+            Road next = RoadList.index.get(RoadList.index.indexOf(current) - 1);
+            if ((next instanceof TrafficLight) && ((TrafficLight) next).rightLight.equals("red")) {
+                if ((this.x >= (this.current.xStart + 4)) && ((this.current.yFinish) == this.y)) {
+                    this.slowDown();
+                }
+            } else {
+                this.speedUp();
+            }
+
+            if (this.currentSpeed > 0) {
+                if (current.orientation.equals("horizontal")) {
+                    this.x -= 1;
+                } else if (current.orientation.equals("vertical")) {
+                    this.y -= 1;
                 }
             }
         }
-        if (this.currentSpeed == 60) {
-            if (current.orientation.equals("horizontal")) {
-                this.x += 1;
-            } else if (current.orientation.equals("vertical")) {
-                this.y += 1;
-            }
-        }
+
 
     }
-    }
+}
 
 
