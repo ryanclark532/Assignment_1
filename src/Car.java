@@ -1,4 +1,7 @@
-public class Car {
+import javax.swing.*;
+import java.awt.*;
+
+public class Car extends JPanel {
     String type;
     double currentSpeed;
     double x,y;
@@ -12,6 +15,22 @@ public class Car {
         this.y = y;
         this.direction = direction;
     }
+
+    public void paint(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setPaint(new Color(150, 150, 150));
+        g2d.fillRoundRect((int) this.x, (int) this.y, 90, 40, 10, 10);
+        g2d.setPaint(new Color(89, 87, 79));
+        g2d.fillOval((int) this.x + 10, (int) this.y - 5, 12, 12);
+        g2d.fillOval((int) this.x + 10, (int) this.y + 35, 12, 12);
+        g2d.fillOval((int) this.x + 60, (int) this.y - 5, 12, 12);
+        g2d.fillOval((int) this.x + 60, (int) this.y + 35, 12, 12);
+        g2d.setPaint(new Color(70, 89, 130));
+        g2d.fillRoundRect((int) this.x + 8, (int) this.y + 8, 15, 25, 5, 5);
+        g2d.fillRoundRect((int) this.x + 60, (int) this.y + 8, 15, 25, 5, 5);
+    }
+
+
 
     private void speedUp() {
         if (this.currentSpeed < 60) {
