@@ -1,24 +1,41 @@
+import javax.swing.*;
+import java.awt.*;
+
 public class Main {
-    public static void main(String[] args) {
-        Road road = new Road(12, 0, 0, "horizontal");
-        Road up = new Road(12, 26, 0, "horizontal");
-        TrafficLight trafficLight = new TrafficLight(12, 13, 0, "horizontal");
-        RoadList list=new RoadList();
-        list.addElement(road);
-        list.addElement(trafficLight);
-        list.addElement(up);
+    public void main(String[] args) {
+        Road road = new Road(500, 0, 0, "horizontal");
+        Road up = new Road(500, 602, 0, "horizontal");
+        TrafficLight trafficLight = new TrafficLight(100, 501, 0, "horizontal");
+        RoadList roadList = new RoadList();
+        roadList.addElement(road);
+        roadList.addElement(trafficLight);
+        roadList.addElement(up);
         Road last = RoadList.index.get(RoadList.index.size() - 1);
         Car car = new Car("Car", 60.00, 0, 0, true);
+        CarList carList = new CarList();
+        carList.addElement(car);
         int i = 0;
+
+        JFrame mainFrame = new JFrame();
+        mainFrame.setLayout(new GridLayout());
+        mainFrame.setSize(1000, 1000);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        mainFrame.setVisible(true);
+        Draw draw = new Draw();
+        JButton start = new JButton("Start");
+        start.addActionListener(actionEvent -> start());
+        mainFrame.add(draw);
+        mainFrame.add(start);
+    }
+
+    public void start() {
         while (true) {
             try {
-                car.updatePosition();
-                if ((i % 4) == 0) {
-                    trafficLight.change();
+                for (Car i : CarList.index) {
+                    i.updatePosition();
                 }
-                i += 1;
-                System.out.println(car.x + " " + car.y + " " + car.currentSpeed + " " + trafficLight.leftLight);
                 Thread.sleep(200);
+
             } catch (IndexOutOfBoundsException | InterruptedException e) {
                 System.out.println("Simulation Complete! :) ");
                 break;
@@ -26,8 +43,6 @@ public class Main {
                 System.out.println("Car hasnt started on a road!");
                 break;
             }
-
         }
-
     }
 }

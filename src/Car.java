@@ -60,42 +60,55 @@ public class Car extends JPanel {
 
     public void updatePosition() {
         this.currentRoad();
-        if (this.direction) {
-            Road next = RoadList.index.get(RoadList.index.indexOf(current) + 1);
-            if ((next instanceof TrafficLight) && ((TrafficLight) next).leftLight.equals("red")) {
-                if ((this.x >= (this.current.xFinish - 4)) && ((this.current.yFinish) == this.y)) {
-                    this.slowDown();
-                }
-            } else {
+        try {
+            if (this.direction) {
+                Road next = RoadList.index.get(RoadList.index.indexOf(current) + 1);
+                if ((next instanceof TrafficLight) && ((TrafficLight) next).leftLight.equals("red")) {
+                    if ((this.x >= (this.current.xFinish - 4)) && ((this.current.yFinish) == this.y)) {
+                        this.slowDown();
+                    }
+                } else {
                     this.speedUp();
                 }
 
-            if (this.currentSpeed > 0) {
-                if (current.orientation.equals("horizontal")) {
-                    this.x += 1;
-                } else if (current.orientation.equals("vertical")) {
-                    this.y += 1;
+                if (this.currentSpeed > 0) {
+                    if (current.orientation.equals("horizontal")) {
+                        this.x += 1;
+                    } else if (current.orientation.equals("vertical")) {
+                        this.y += 1;
+                    }
                 }
-            }
 
-        } else {
-            Road next = RoadList.index.get(RoadList.index.indexOf(current) - 1);
-            if ((next instanceof TrafficLight) && ((TrafficLight) next).rightLight.equals("red")) {
-                if ((this.x >= (this.current.xStart + 4)) && ((this.current.yFinish) == this.y)) {
-                    this.slowDown();
-                }
             } else {
-                this.speedUp();
-            }
+                Road next = RoadList.index.get(RoadList.index.indexOf(current) - 1);
+                if ((next instanceof TrafficLight) && ((TrafficLight) next).rightLight.equals("red")) {
+                    if ((this.x >= (this.current.xStart + 4)) && ((this.current.yFinish) == this.y)) {
+                        this.slowDown();
+                    }
+                } else {
+                    this.speedUp();
+                }
 
-            if (this.currentSpeed > 0) {
-                if (current.orientation.equals("horizontal")) {
-                    this.x -= 1;
-                } else if (current.orientation.equals("vertical")) {
-                    this.y -= 1;
+                if (this.currentSpeed > 0) {
+                    if (current.orientation.equals("horizontal")) {
+                        this.x -= 1;
+                    } else if (current.orientation.equals("vertical")) {
+                        this.y -= 1;
+                    }
+                }
+            }
+        } catch (IndexOutOfBoundsException e) {
+            if (this.x <= current.xFinish) {
+                if (this.currentSpeed > 0) {
+                    if (current.orientation.equals("horizontal")) {
+                        this.x += 1;
+                    } else if (current.orientation.equals("vertical")) {
+                        this.y += 1;
+                    }
                 }
             }
         }
+
 
 
     }
