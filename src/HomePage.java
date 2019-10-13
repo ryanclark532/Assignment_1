@@ -1,24 +1,36 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class UI {
+public class HomePage {
+    static Timer timer;
     static JFrame mainFrame = new JFrame();
     public static void main(String[] args) throws InterruptedException {
-        Road road = new Road(100, 0, 0, "horizontal");
-        Road up = new Road(100, 101, 0, "horizontal");
-        Car car = new Car("Car", 60.00, 0, 0, true);
+        Road road = new Road(200, 0, 0, "horizontal");
+        Road up = new Road(200, 201, 0, "vertical");
+        TrafficLight light = new TrafficLight(200, 402, 0, "horizontal");
+        Road up2 = new Road(200, 603, 0, "horizontal");
+        Car car = new Car("Car", 60.00, 0, 3, true);
+        Car ca1r = new Car("Car", 60.00, 80, 3, true);
+        Car ca2r = new Car("Car", 60.00, 160, 3, true);
+        Car ca3r = new Car("Car", 60.00, 240, 3, true);
+
+
         RoadList roadList = new RoadList();
         CarList carList = new CarList();
         roadList.addElement(road);
         roadList.addElement(up);
+        roadList.addElement(light);
+        roadList.addElement(up2);
         carList.addElement(car);
+        carList.addElement(ca1r);
+        carList.addElement(ca2r);
+        carList.addElement(ca3r);
+
 
         mainFrame.setLayout(new GridBagLayout());
-        mainFrame.setSize(1000, 800);
+        mainFrame.setSize(1500, 800);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -30,17 +42,27 @@ public class UI {
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
-        JButton start = new JButton("Go");
+        JPanel goStop = new JPanel();
+        goStop.setLayout(new GridLayout(1, 3));
         c.weightx = 1;
         c.weighty = 0.25;
-        start.addActionListener(actionEvent -> start());
+
         c.ipady = 50;
         c.ipadx = 100;
 
         c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 0;
-        mainFrame.add(start, c);
+        JButton start = new JButton("Go");
+        JButton stop = new JButton("Stop");
+        JButton load = new JButton("Create New Simulation");
+        start.addActionListener(actionEvent -> start());
+        stop.addActionListener(actionEvent -> stop());
+        load.addActionListener(actionEvent -> change());
+        goStop.add(start);
+        goStop.add(stop);
+        goStop.add(load);
+        mainFrame.add(goStop, c);
 
         Draw draw = new Draw();
         c.weightx = 0.5;
@@ -79,28 +101,34 @@ public class UI {
         stats.add(lbl_NOC);
         stats.add(lbl_T);
         bcontainer.add(stats);
-
         JPanel export = new JPanel();
         export.setBackground(Color.ORANGE);
         bcontainer.add(export);
         mainFrame.setVisible(true);
+        load();
+    }
 
+    private static void load() {
+        timer = new Timer(1, actionEvent -> {
+            for (Car i : CarList.index) {
+                i.updatePosition();
+                mainFrame.repaint();
+                System.out.println(i.currentSpeed);
+            }
+        });
     }
 
     private static void start() {
-        Timer timer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                for (Car i : CarList.index) {
-                    i.updatePosition();
-                    mainFrame.repaint();
-                    System.out.println(i.x);
-                }
-            }
-        });
         timer.start();
+    }
 
+    private static void stop() {
+        timer.stop();
+    }
 
+    private static void change() {
+        JFrame CreateNewSim = new JFrame();
+        CreateSimPage c = new CreateSimPage(CreateNewSim);
     }
 
 }

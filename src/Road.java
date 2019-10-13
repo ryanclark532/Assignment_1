@@ -14,11 +14,11 @@ public class Road extends JPanel {
         this.orientation=orientation;
         if (orientation.equals("vertical")) {
             setyFinish(this.yStart + this.length);
-            setxFinish(this.xStart);
+            setxFinish(this.xStart + 60);
         }
         else {
             setxFinish(this.xStart + this.length);
-            setyFinish(this.yStart);
+            setyFinish(this.yStart + 60);
         }
 
     }
@@ -26,7 +26,16 @@ public class Road extends JPanel {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setPaint(Color.black);
-        g2d.fillRoundRect((int) this.xStart, (int) this.yStart, (int) this.length, 60, 2, 2);
+        if (this.orientation.equals("horizontal")) {
+            g2d.fillRoundRect((int) this.xStart, (int) this.yStart, (int) this.length, 50, 2, 2);
+            g2d.setPaint(Color.GRAY);
+            g2d.fillRect((int) this.xStart, (int) this.yStart + 22, (int) this.length, 3);
+        } else {
+            g2d.fillRoundRect((int) this.xStart, (int) this.yStart, 50, (int) this.length, 2, 2);
+            g2d.setPaint(Color.GRAY);
+            g2d.fillRect((int) this.xStart + 22, (int) this.yStart, 3, (int) this.length);
+        }
+
     }
 
 
