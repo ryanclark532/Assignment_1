@@ -6,28 +6,9 @@ import java.awt.event.WindowEvent;
 public class HomePage {
     static Timer timer;
     static JFrame mainFrame = new JFrame();
+    public static Draw draw = new Draw();
+    static JFrame createSim = new JFrame();
     public static void main(String[] args) throws InterruptedException {
-        Road road = new Road(200, 0, 0, "horizontal");
-        Road up = new Road(200, 201, 0, "vertical");
-        TrafficLight light = new TrafficLight(200, 402, 0, "horizontal");
-        Road up2 = new Road(200, 603, 0, "horizontal");
-        Car car = new Car("Car", 60.00, 0, 3, true);
-        Car ca1r = new Car("Car", 60.00, 80, 3, true);
-        Car ca2r = new Car("Car", 60.00, 160, 3, true);
-        Car ca3r = new Car("Car", 60.00, 240, 3, true);
-
-
-        RoadList roadList = new RoadList();
-        CarList carList = new CarList();
-        roadList.addElement(road);
-        roadList.addElement(up);
-        roadList.addElement(light);
-        roadList.addElement(up2);
-        carList.addElement(car);
-        carList.addElement(ca1r);
-        carList.addElement(ca2r);
-        carList.addElement(ca3r);
-
 
         mainFrame.setLayout(new GridBagLayout());
         mainFrame.setSize(1500, 800);
@@ -64,7 +45,7 @@ public class HomePage {
         goStop.add(load);
         mainFrame.add(goStop, c);
 
-        Draw draw = new Draw();
+
         c.weightx = 0.5;
         c.weighty = 0.5;
         c.gridx = 0;
@@ -127,8 +108,8 @@ public class HomePage {
     }
 
     private static void change() {
-        JFrame CreateNewSim = new JFrame();
-        CreateSimPage c = new CreateSimPage(CreateNewSim);
+        CreateSimPage c = new CreateSimPage(createSim);
+
     }
 
 }

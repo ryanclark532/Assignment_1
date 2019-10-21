@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Road extends JPanel {
-    private double length;
+    public double length;
     public double xStart,yStart;
     public double xFinish,yFinish;
     public String orientation;
