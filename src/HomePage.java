@@ -5,13 +5,13 @@ import java.awt.event.WindowEvent;
 
 public class HomePage {
     static Timer timer;
-    static JFrame mainFrame = new JFrame();
+    public static JFrame mainFrame = new JFrame();
     public static Draw draw = new Draw();
     static JFrame createSim = new JFrame();
     public static void main(String[] args) throws InterruptedException {
 
         mainFrame.setLayout(new GridBagLayout());
-        mainFrame.setSize(1500, 800);
+        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.addWindowListener(new WindowAdapter() {
             @Override
@@ -26,7 +26,7 @@ public class HomePage {
         JPanel goStop = new JPanel();
         goStop.setLayout(new GridLayout(1, 3));
         c.weightx = 1;
-        c.weighty = 0.25;
+        c.weighty = 0.2;
 
         c.ipady = 50;
         c.ipadx = 100;
@@ -46,27 +46,28 @@ public class HomePage {
         mainFrame.add(goStop, c);
 
 
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        c.weightx = 0.75;
+        c.weighty = 0.6;
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
         mainFrame.add(draw, c);
 
-        JLabel label = new JLabel("Test");
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.CENTER);
-        c.weightx = 0.5;
-        c.weighty = 0.5;
+        JButton addCar = new JButton("New Car");
+        addCar.addActionListener(actionEvent -> car());
+        addCar.setHorizontalAlignment(JLabel.CENTER);
+        addCar.setVerticalAlignment(JLabel.CENTER);
+        c.weightx = 0.25;
+        c.weighty = 0.6;
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 1;
-        mainFrame.add(label, c);
+        mainFrame.add(addCar, c);
 
         JPanel bcontainer = new JPanel();
         bcontainer.setLayout(new GridLayout(1, 2));
         c.weightx = 1;
-        c.weighty = 0.25;
+        c.weighty = 0.2;
         c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 2;
@@ -87,6 +88,12 @@ public class HomePage {
         bcontainer.add(export);
         mainFrame.setVisible(true);
         load();
+        createSim.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                System.out.println("hello");
+            }
+        });
     }
 
     private static void load() {
@@ -99,6 +106,12 @@ public class HomePage {
         });
     }
 
+    static void car() {
+        Road first = RoadList.index.get(0);
+        Car temp = new Car("Car", 60, first.xStart, first.yStart, true);
+        CarList.index.add(temp);
+        mainFrame.repaint();
+    }
     private static void start() {
         timer.start();
     }

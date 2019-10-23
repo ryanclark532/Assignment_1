@@ -129,11 +129,15 @@ public class Car extends JPanel {
                 }
             }
         } catch (IndexOutOfBoundsException e) {
-            if (current.orientation.equals("horizontal")) {
-                this.x += 0.01 * currentSpeed;
-            } else if (current.orientation.equals("vertical")) {
-                this.y += 0.01 * currentSpeed;
+            if ((this.x < current.xFinish) && (this.y < current.yFinish)) {
+                if (current.orientation.equals("horizontal")) {
+                    this.x += 0.01 * currentSpeed;
+                } else if (current.orientation.equals("vertical")) {
+                    this.y += 0.01 * currentSpeed;
+                }
             }
+
+
         }
 
 
