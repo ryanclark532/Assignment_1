@@ -5,11 +5,8 @@ public class Main {
     public void main(String[] args) {
         Road road = new Road(500, 0, 0, "horizontal");
         Road up = new Road(500, 602, 0, "horizontal");
-        TrafficLight trafficLight = new TrafficLight(100, 501, 0, "horizontal");
-        RoadList roadList = new RoadList();
-        roadList.addElement(road);
-        roadList.addElement(trafficLight);
-        roadList.addElement(up);
+
+
         Road last = RoadList.index.get(RoadList.index.size() - 1);
         Car car = new Car("Car", 60.00, 0, 0, true);
         CarList carList = new CarList();

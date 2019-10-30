@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.Random;
 public class TrafficLight extends Road {
     public String topLight;
@@ -12,9 +13,10 @@ public class TrafficLight extends Road {
         this.rightLight = "red";
         this.bottomLight = "red";
     }
-    public void change(){
-        Random random=new Random();
-        switch (random.nextInt(4)){
+
+    public void change() {
+        Random random = new Random();
+        switch (random.nextInt(4)) {
             case 1:
                 this.topLight = "green";
                 this.leftLight = "red";
@@ -41,7 +43,20 @@ public class TrafficLight extends Road {
                 break;
         }
     }
+
+    @Override
+    public void paint(Graphics g) {
+        Graphics2D g2d = ((Graphics2D) g);
+        if (this.selected) {
+            g2d.setPaint(Color.BLUE);
+            g2d.fillRect(((int) this.xFinish), ((int) this.yStart), 30, 30);
+        } else {
+            g2d.setPaint(Color.GRAY);
+            g2d.fillRect(((int) this.xFinish), ((int) this.yStart), 30, 30);
+        }
+    }
 }
+
 
 
 

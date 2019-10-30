@@ -19,7 +19,7 @@ public class CreateSimPage {
     JButton save = new JButton();
     CreateSimPage(JFrame CreateSim) {
         this.CreateSim = CreateSim;
-        this.CreateSim.setSize(1000, 800);
+        this.CreateSim.setSize(1500, 800);
         this.CreateSim.setVisible(true);
         this.load();
     }
@@ -30,7 +30,7 @@ public class CreateSimPage {
         GridBagConstraints c = new GridBagConstraints();
         c.gridy = 0;
         c.weightx = 0;
-        c.weightx = 1;
+        c.weightx = 0.8;
         c.weighty = 1;
         c.fill = GridBagConstraints.BOTH;
 
@@ -39,15 +39,15 @@ public class CreateSimPage {
         CreateSim.add(draw, c);
 
         c.gridx = 1;
-        c.weightx = 0.35;
+        c.weightx = 0.2;
         CreateSim.add(two, c);
         two.setLayout(new GridLayout(3, 1));
-        JButton add = new JButton("Add Road");
+
         JPanel details = new JPanel();
         details.setLayout(new GridBagLayout());
         JLabel lbl = new JLabel("Use arrow key to positon road");
         details.setBackground(Color.BLUE);
-        add.addActionListener(actionEvent -> addRoad());
+
         save.addActionListener(actionEvent -> save());
         refresh.addActionListener(actionEvent -> refresh());
         c.gridy = 0;
@@ -69,7 +69,19 @@ public class CreateSimPage {
         c.gridx = 0;
         details.add(refresh, c);
 
-        two.add(add);
+        JPanel addButtons = new JPanel();
+        addButtons.setLayout(new GridLayout(2, 2));
+        JButton addRoad = new JButton("Add Road");
+        JButton addIntersection = new JButton("Add Intersection");
+        JButton addTrafficLight = new JButton("Add Traffic Light");
+        addRoad.addActionListener(actionEvent -> addRoad());
+        addTrafficLight.addActionListener(actionEvent -> addTrafficLight());
+        addIntersection.addActionListener(actionEvent -> addIntersection());
+        addButtons.add(addRoad);
+        addButtons.add(addIntersection);
+        addButtons.add(addTrafficLight);
+
+        two.add(addButtons);
         two.add(details);
         JPanel savePanel = new JPanel();
         savePanel.setLayout(new GridLayout(2, 1));
@@ -89,24 +101,32 @@ public class CreateSimPage {
                 moveRoad(e);
             }
         });
-
+        repaint();
 
     }
+
 
     void moveRoad(KeyEvent e) {
         if (e.getKeyChar() == 'a') {
             current.xStart -= 10;
+            current.xFinish -= 10;
         } else if (e.getKeyChar() == 's') {
             current.yStart += 10;
+            current.yFinish += 10;
         } else if (e.getKeyChar() == 'd') {
             current.xStart += 10;
+            current.xFinish += 10;
         } else if (e.getKeyChar() == 'w') {
             current.yStart -= 10;
+            current.yFinish -= 10;
         } else {
             JOptionPane.showInputDialog("no");
         }
-        System.out.println(current.xStart);
-        CreateSim.repaint();
+        x.setText(String.valueOf(current.xStart));
+        y.setText(String.valueOf(current.yStart));
+        orientation.setText(String.valueOf(current.orientation));
+        length.setText(String.valueOf(current.length));
+
     }
 
     void roadClick(MouseEvent e) {
@@ -116,11 +136,7 @@ public class CreateSimPage {
                     i.selected = false;
                 }
                 if (((i.xStart <= e.getX()) && (i.xFinish >= e.getX())) && ((i.yStart <= e.getY() && (i.yFinish >= e.getY())))) {
-                    if (i instanceof TrafficLight) {
-                        current = i;
-                    } else {
-                        current = i;
-                    }
+                    current = i;
                 }
             }
             x.setText(String.valueOf(current.xStart));
@@ -129,9 +145,8 @@ public class CreateSimPage {
             length.setText(String.valueOf(current.length));
             lbl.setText("Road selected");
             draw.grabFocus();
-            System.out.println(CreateSim.getFocusOwner());
             current.selected = true;
-            CreateSim.repaint();
+
         } catch (NullPointerException z) {
             lbl.setText("No road found!");
         }
@@ -145,7 +160,7 @@ public class CreateSimPage {
             current.orientation = orientation.getText();
             current.length = Double.valueOf(length.getText());
             current.selected = true;
-            CreateSim.repaint();
+
         } catch (NullPointerException e) {
             lbl.setText("No road selected");
         }
@@ -158,11 +173,57 @@ public class CreateSimPage {
 
 
     void addRoad() {
-        RoadList list = new RoadList();
-        Road temp = new Road(200, 203, 300, "horizontal");
-        list.addElement(temp);
-        CreateSim.repaint();
-        System.out.println(RoadList.index);
+        Road temp = new Road(200, 200, 300, "horizontal");
+        RoadList.index.add(temp);
+        for (Road i : RoadList.index) {
+            if (i.selected) {
+                i.selected = false;
+            }
+        }
+        temp.selected = true;
+
+    }
+
+    void addTrafficLight() {
+        TrafficLight temp = new TrafficLight(40, 300, 300, "horizontal");
+        RoadList.index.add(temp);
+        for (Road i : RoadList.index) {
+            if (i.selected) {
+                i.selected = false;
+            }
+        }
+        temp.selected = true;
+
+    }
+
+    private void addIntersection() {
+        Intersection temp = new Intersection(300, 300, "horizontal");
+        for (Road i : RoadList.index) {
+            if (i.selected) {
+                i.selected = false;
+            }
+        }
+
+        temp.selected = true;
+        RoadList.index.add(temp);
+
+    }
+
+    void repaint() {
+        Timer timer = new Timer(1, actionEvent -> {
+            for (Road i : RoadList.index) {
+                for (Road x : RoadList.index) {
+                    if (i == x) {
+                        continue;
+                    }
+                    i.connected = ((i.xFinish == x.xStart) && (i.yStart == x.yStart)) || ((x.xFinish == i.xStart) && (x.yStart == i.yStart)) ||
+                            ((x.xStart == i.xStart) && (x.yStart == i.yFinish)) || ((i.xStart == x.xStart) && (x.yFinish == i.yStart));
+
+                }
+            }
+            CreateSim.repaint();
+        });
+        timer.start();
     }
 
 

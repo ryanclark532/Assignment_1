@@ -91,7 +91,7 @@ public class HomePage {
         createSim.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                System.out.println("hello");
+
             }
         });
     }
@@ -100,8 +100,9 @@ public class HomePage {
         timer = new Timer(1, actionEvent -> {
             for (Car i : CarList.index) {
                 i.updatePosition();
+
                 mainFrame.repaint();
-                System.out.println(i.currentSpeed);
+
             }
         });
     }
