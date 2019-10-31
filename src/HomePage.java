@@ -8,7 +8,9 @@ public class HomePage {
     public static JFrame mainFrame = new JFrame();
     public static Draw draw = new Draw();
     static JFrame createSim = new JFrame();
-    public static void main(String[] args) throws InterruptedException {
+    static CreateSimPage cs;
+
+    public static void main(String[] args) {
 
         mainFrame.setLayout(new GridBagLayout());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -88,28 +90,33 @@ public class HomePage {
         bcontainer.add(export);
         mainFrame.setVisible(true);
         load();
+
         createSim.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
 
             }
         });
+        cs = new CreateSimPage(createSim);
+        cs.load();
     }
 
     private static void load() {
         timer = new Timer(1, actionEvent -> {
             for (Car i : CarList.index) {
-                i.updatePosition();
-
+                try {
+                    i.updatePosition();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 mainFrame.repaint();
-
             }
         });
     }
 
     static void car() {
-        Road first = RoadList.index.get(0);
-        Car temp = new Car("Car", 60, first.xStart, first.yStart, true);
+        Road test = RoadList.index.get(4);
+        Car temp = new Car("Car", 60, test.xStart, test.yFinish, false);
         CarList.index.add(temp);
         mainFrame.repaint();
     }
@@ -122,8 +129,7 @@ public class HomePage {
     }
 
     private static void change() {
-        CreateSimPage c = new CreateSimPage(createSim);
-
+        createSim.setVisible(true);
     }
 
 }

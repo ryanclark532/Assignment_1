@@ -19,12 +19,11 @@ public class CreateSimPage {
     JButton save = new JButton();
     CreateSimPage(JFrame CreateSim) {
         this.CreateSim = CreateSim;
-        this.CreateSim.setSize(1500, 800);
-        this.CreateSim.setVisible(true);
-        this.load();
+
     }
 
     void load() {
+        this.CreateSim.setSize(1500, 800);
         CreateSim.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -101,6 +100,16 @@ public class CreateSimPage {
                 moveRoad(e);
             }
         });
+        Road first = new Road(200, 100, 300, "horizontal");
+        Intersection intersection = new Intersection(300, 300, "horizontal");
+        Road seocond = new Road(200, 330, 300, "horizontal");
+        Road up = new Road(200, 300, 100, "vertical");
+        Road down = new Road(200, 300, 330, "vertical");
+        RoadList.index.add(first);
+        RoadList.index.add(intersection);
+        RoadList.index.add(seocond);
+        RoadList.index.add(up);
+        RoadList.index.add(down);
         repaint();
 
     }
@@ -181,7 +190,7 @@ public class CreateSimPage {
             }
         }
         temp.selected = true;
-
+        draw.grabFocus();
     }
 
     void addTrafficLight() {
@@ -193,7 +202,7 @@ public class CreateSimPage {
             }
         }
         temp.selected = true;
-
+        draw.grabFocus();
     }
 
     private void addIntersection() {
@@ -203,7 +212,7 @@ public class CreateSimPage {
                 i.selected = false;
             }
         }
-
+        draw.grabFocus();
         temp.selected = true;
         RoadList.index.add(temp);
 
@@ -221,6 +230,7 @@ public class CreateSimPage {
 
                 }
             }
+
             CreateSim.repaint();
         });
         timer.start();

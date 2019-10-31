@@ -14,21 +14,16 @@ public class Intersection extends Road {
         g2d.fillRect(((int) this.xStart), ((int) this.yStart), ((int) this.length), ((int) this.length));
     }
 
-    ArrayList<Road> links() {
+    ArrayList<Road> links(Road next) {
         ArrayList<Road> roads = new ArrayList<>();
         for (Road i : RoadList.index) {
-            for (Road x : RoadList.index) {
-                if (i == x) {
-                    continue;
-                }
-                if (x instanceof Intersection) {
-                    if (((i.xFinish == x.xStart) && (i.yStart == x.yStart)) || ((x.xFinish == i.xStart) && (x.yStart == i.yStart)) ||
-                            ((x.xStart == i.xStart) && (x.yStart == i.yFinish)) || ((i.xStart == x.xStart) && (x.yFinish == i.yStart))) {
-                        roads.add(i);
-
-                    }
+            if (((i.xFinish == next.xStart) && (i.yStart == next.yStart)) || ((next.xFinish == i.xStart) && (next.yStart == i.yStart)) ||
+                    ((next.xStart == i.xStart) && (next.yStart == i.yFinish)) || ((i.xStart == next.xStart) && (next.yFinish == i.yStart))) {
+                if (!roads.contains(i)) {
+                    roads.add(i);
                 }
             }
+
         }
         return roads;
     }
