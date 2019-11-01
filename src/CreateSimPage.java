@@ -101,7 +101,7 @@ public class CreateSimPage {
             }
         });
         Road first = new Road(200, 100, 300, "horizontal");
-        Intersection intersection = new Intersection(300, 300, "horizontal");
+        TrafficLight intersection = new TrafficLight(300, 300, "horizontal");
         Road seocond = new Road(200, 330, 300, "horizontal");
         Road up = new Road(200, 300, 100, "vertical");
         Road down = new Road(200, 300, 330, "vertical");
@@ -194,7 +194,7 @@ public class CreateSimPage {
     }
 
     void addTrafficLight() {
-        TrafficLight temp = new TrafficLight(40, 300, 300, "horizontal");
+        TrafficLight temp = new TrafficLight(300, 300, "horizontal");
         RoadList.index.add(temp);
         for (Road i : RoadList.index) {
             if (i.selected) {

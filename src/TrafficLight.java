@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 public class TrafficLight extends Road {
     public String topLight;
@@ -6,8 +7,8 @@ public class TrafficLight extends Road {
     public String rightLight;
     public String bottomLight;
 
-    public TrafficLight(int length, double xStart, double yStart, String orientation) {
-        super(length, xStart, yStart, orientation);
+    public TrafficLight(double xStart, double yStart, String orientation) {
+        super(30, xStart, yStart, orientation);
         this.topLight = "red";
         this.leftLight = "red";
         this.rightLight = "red";
@@ -44,16 +45,30 @@ public class TrafficLight extends Road {
         }
     }
 
+    ArrayList<Road> links(Road next) {
+        ArrayList<Road> roads = new ArrayList<>();
+        for (Road i : RoadList.index) {
+            if (((i.xFinish == next.xStart) && (i.yStart == next.yStart)) || ((next.xFinish == i.xStart) && (next.yStart == i.yStart)) ||
+                    ((next.xStart == i.xStart) && (next.yStart == i.yFinish)) || ((i.xStart == next.xStart) && (next.yFinish == i.yStart))) {
+                if (!roads.contains(i)) {
+                    roads.add(i);
+                }
+            }
+
+        }
+        return roads;
+    }
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = ((Graphics2D) g);
         if (this.selected) {
             g2d.setPaint(Color.BLUE);
-            g2d.fillRect(((int) this.xFinish), ((int) this.yStart), 30, 30);
+            g2d.fillRect(((int) this.xStart), ((int) this.yStart), 30, 30);
         } else {
             g2d.setPaint(Color.GRAY);
-            g2d.fillRect(((int) this.xFinish), ((int) this.yStart), 30, 30);
+            g2d.fillRect(((int) this.xStart), ((int) this.yStart), 30, 30);
         }
+
     }
 }
 

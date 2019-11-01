@@ -25,51 +25,57 @@ public class HomePage {
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
-        JPanel goStop = new JPanel();
-        goStop.setLayout(new GridLayout(1, 3));
+        JMenuBar menu = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenu edit = new JMenu("Edit");
+        JMenuItem save = new JMenuItem("Save Configuration");
+        JMenuItem cn = new JMenuItem("Edit Current Sim");
+        cn.addActionListener(actionEvent -> csShow());
+        menu.add(file);
+        menu.add(edit);
+        file.add(save);
+        edit.add(cn);
+        menu.setAlignmentX(JMenuBar.LEFT_ALIGNMENT);
         c.weightx = 1;
-        c.weighty = 0.2;
-
-        c.ipady = 50;
-        c.ipadx = 100;
+        c.weighty = 0.001;
 
         c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 0;
-        JButton start = new JButton("Go");
-        JButton stop = new JButton("Stop");
-        JButton load = new JButton("Create New Simulation");
-        start.addActionListener(actionEvent -> start());
-        stop.addActionListener(actionEvent -> stop());
-        load.addActionListener(actionEvent -> change());
-        goStop.add(start);
-        goStop.add(stop);
-        goStop.add(load);
-        mainFrame.add(goStop, c);
+        mainFrame.add(menu, c);
 
 
-        c.weightx = 0.75;
-        c.weighty = 0.6;
+        c.weightx = 0.85;
+        c.weighty = 0.75;
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 1;
         mainFrame.add(draw, c);
 
+        JPanel goStop = new JPanel();
+        goStop.setLayout(new GridLayout(3, 1));
+        JButton start = new JButton("Go");
+        JButton stop = new JButton("Stop");
         JButton addCar = new JButton("New Car");
+        start.addActionListener(actionEvent -> start());
+        stop.addActionListener(actionEvent -> stop());
         addCar.addActionListener(actionEvent -> car());
         addCar.setHorizontalAlignment(JLabel.CENTER);
         addCar.setVerticalAlignment(JLabel.CENTER);
-        c.weightx = 0.25;
-        c.weighty = 0.6;
+        goStop.add(start);
+        goStop.add(stop);
+        goStop.add(addCar);
+        c.weightx = 0.15;
+        c.weighty = 0.70;
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 1;
-        mainFrame.add(addCar, c);
+        mainFrame.add(goStop, c);
 
         JPanel bcontainer = new JPanel();
         bcontainer.setLayout(new GridLayout(1, 2));
         c.weightx = 1;
-        c.weighty = 0.2;
+        c.weighty = 0.15;
         c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 2;
@@ -115,20 +121,25 @@ public class HomePage {
     }
 
     static void car() {
-        Road test = RoadList.index.get(4);
-        Car temp = new Car("Car", 60, test.xStart, test.yFinish, false);
+        Road test = RoadList.index.get(0);
+        Car temp = new Car("Car", 60, test.xStart, test.yStart, true);
         CarList.index.add(temp);
         mainFrame.repaint();
     }
     private static void start() {
         timer.start();
+        for (Road i : RoadList.index) {
+            if (i instanceof TrafficLight) {
+                ((TrafficLight) i).change();
+            }
+        }
     }
 
     private static void stop() {
         timer.stop();
     }
 
-    private static void change() {
+    private static void csShow() {
         createSim.setVisible(true);
     }
 
