@@ -64,11 +64,7 @@ public class Car extends JPanel {
     private void currentRoad() {
         for (Road i : RoadList.index) {
             if (((i.xStart <= this.x) && (i.xFinish >= this.x)) && ((i.yStart <= this.y) && (i.yFinish >= this.y))) {
-                if (i instanceof TrafficLight) {
-                    this.current = i;
-                } else {
-                    this.current = i;
-                }
+                this.current = i;
             }
         }
 
@@ -103,14 +99,14 @@ public class Car extends JPanel {
                 }
             }
         }
-        if (next == null) ;
+
 
     }
 
-    public void updatePosition() throws InterruptedException {
+    public void updatePosition() {
         this.currentRoad();
         this.nextRoad();
-        System.out.println(current.orientation);
+
         if (current.orientation.equals("horizontal")) {
             if (this.direction) {
                 for (Car i : CarList.index) {
@@ -123,14 +119,6 @@ public class Car extends JPanel {
                 }
                 if (next instanceof Intersection || next instanceof TrafficLight) {
                     try {
-                        if (((TrafficLight) next).leftLight.equals("red")) {
-                            if (this.x >= (this.current.xFinish - 70)) {
-                                this.slowDown();
-                            }
-                        } else {
-                            this.speedUp();
-                        }
-
                         if (next instanceof Intersection) {
                             links = ((Intersection) next).links(next);
                         } else {
@@ -154,6 +142,14 @@ public class Car extends JPanel {
                             }
 
                         }
+                        if (((TrafficLight) next).leftLight.equals("red")) {
+
+                            if (this.x >= (this.current.xFinish - 70)) {
+                                this.slowDown();
+                            }
+                        } else {
+                            this.speedUp();
+                        }
                     } catch (ClassCastException d) {
 
                     }
@@ -171,14 +167,6 @@ public class Car extends JPanel {
                     }
                 if (next instanceof Intersection || next instanceof TrafficLight) {
                     try {
-                        if (((TrafficLight) next).rightLight.equals("red")) {
-                            if (this.x >= (this.current.xStart + 40)) {
-                                this.slowDown();
-                            }
-                        } else {
-                            this.speedUp();
-                        }
-
                         if (next instanceof Intersection) {
                             links = ((Intersection) next).links(next);
                         } else {
@@ -191,7 +179,7 @@ public class Car extends JPanel {
                             x = random.nextInt(links.size());
                             road = links.get(x);
                         }
-                        if (((this.x <= next.xFinish + 1) && this.x > next.xFinish)) {
+                        if (((this.x <= next.xFinish + 5) && this.x > next.xFinish)) {
 
                             if (road.orientation.equals("vertical") && road.yStart > current.yStart) {
                                 this.x = road.xStart;
@@ -202,6 +190,13 @@ public class Car extends JPanel {
                                 this.x = road.xFinish;
                                 this.y = road.yFinish;
                             }
+                        }
+                        if (((TrafficLight) next).rightLight.equals("red")) {
+                            if (this.x >= (this.current.xStart + 70)) {
+                                this.slowDown();
+                            }
+                        } else {
+                            this.speedUp();
                         }
 
                     } catch (ClassCastException r) {
@@ -224,13 +219,7 @@ public class Car extends JPanel {
                     }
                     if (next instanceof Intersection || next instanceof TrafficLight) {
                         try {
-                            if (((TrafficLight) next).topLight.equals("red")) {
-                                if (this.y >= (this.current.yFinish - 40)) {
-                                    this.slowDown();
-                                } else {
-                                    this.speedUp();
-                                }
-                            }
+
                             if (next instanceof Intersection) {
                                 links = ((Intersection) next).links(next);
                             } else {
@@ -256,14 +245,18 @@ public class Car extends JPanel {
                                     this.y = road.yStart;
                                 }
                             }
-
+                            if (((TrafficLight) next).topLight.equals("red")) {
+                                if (this.y >= (this.current.yFinish - 70)) {
+                                    this.slowDown();
+                                } else {
+                                    this.speedUp();
+                                }
+                            }
                         } catch (ClassCastException f) {
 
                         }
 
                     }
-
-
 
                     move();
                 } else {
@@ -277,14 +270,7 @@ public class Car extends JPanel {
                     }
                     if (next instanceof Intersection || next instanceof TrafficLight) {
                         try {
-                            if (((TrafficLight) next).bottomLight.equals("red")) {
 
-                                if (this.y >= (this.current.yStart + 40)) {
-                                    this.slowDown();
-                                }
-                            } else {
-                                this.speedUp();
-                            }
                             if (next instanceof Intersection) {
                                 links = ((Intersection) next).links(next);
                             } else {
@@ -307,14 +293,18 @@ public class Car extends JPanel {
                                     this.y = road.yFinish;
                                 }
                             }
-
+                            if (((TrafficLight) next).bottomLight.equals("red")) {
+                                if (this.y >= (this.current.yFinish + 70)) {
+                                    this.slowDown();
+                                } else {
+                                    this.speedUp();
+                                }
+                            }
                         } catch (ClassCastException r) {
 
                         }
 
                     }
-
-
                     move();
                 }
 
@@ -322,6 +312,7 @@ public class Car extends JPanel {
     }
 
     void move() {
+
         if (currentSpeed > 0) {
             if (current.orientation.equals("horizontal")) {
                 if (this.direction) {
@@ -337,6 +328,7 @@ public class Car extends JPanel {
                 }
             }
         }
+
     }
 }
 

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class HomePage {
     static Timer timer;
@@ -9,8 +10,9 @@ public class HomePage {
     public static Draw draw = new Draw();
     static JFrame createSim = new JFrame();
     static CreateSimPage cs;
+    static LS ls = new LS();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         mainFrame.setLayout(new GridBagLayout());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -29,11 +31,28 @@ public class HomePage {
         JMenu file = new JMenu("File");
         JMenu edit = new JMenu("Edit");
         JMenuItem save = new JMenuItem("Save Configuration");
+        JMenuItem open = new JMenuItem("Open Configuration");
         JMenuItem cn = new JMenuItem("Edit Current Sim");
+        save.addActionListener(actionEvent -> {
+            try {
+                saveSim();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         cn.addActionListener(actionEvent -> csShow());
+        open.addActionListener(actionEvent -> {
+            try {
+                loadSim();
+                mainFrame.repaint();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         menu.add(file);
         menu.add(edit);
         file.add(save);
+        file.add(open);
         edit.add(cn);
         menu.setAlignmentX(JMenuBar.LEFT_ALIGNMENT);
         c.weightx = 1;
@@ -94,7 +113,7 @@ public class HomePage {
         JPanel export = new JPanel();
         export.setBackground(Color.ORANGE);
         bcontainer.add(export);
-        mainFrame.setVisible(true);
+
         load();
 
         createSim.addWindowListener(new WindowAdapter() {
@@ -105,6 +124,12 @@ public class HomePage {
         });
         cs = new CreateSimPage(createSim);
         cs.load();
+        Road first = new Road(200, 0, 300, "horizontal");
+        RoadList.index.add(first);
+
+        mainFrame.setVisible(true);
+        ls.load();
+        mainFrame.repaint();
     }
 
     private static void load() {
@@ -141,6 +166,14 @@ public class HomePage {
 
     private static void csShow() {
         createSim.setVisible(true);
+    }
+
+    static void saveSim() throws IOException {
+        ls.save();
+    }
+
+    static void loadSim() throws IOException {
+        ls.load();
     }
 
 }

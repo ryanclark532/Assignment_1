@@ -7,7 +7,6 @@ public class Road extends JPanel {
     public double xFinish,yFinish;
     public String orientation;
     public boolean selected;
-    public boolean connected = false;
     public Road(int length, double xStart, double yStart, String orientation) {
         this.length = length;
         this.xStart = xStart;
@@ -28,33 +27,19 @@ public class Road extends JPanel {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         if (this.orientation.equals("horizontal")) {
-            if (this.connected) {
-                g2d.setColor(Color.GREEN);
-                g2d.fillRoundRect((int) this.xStart, (int) this.yStart, (int) this.length, 30, 2, 2);
-                g2d.setPaint(Color.GRAY);
-                g2d.fillRect((int) this.xStart, (int) this.yStart + 22, (int) this.length, 3);
-            } else {
-                g2d.setColor(Color.RED);
-                g2d.fillRoundRect((int) this.xStart, (int) this.yStart, (int) this.length, 30, 2, 2);
-                g2d.setPaint(Color.GRAY);
-                g2d.fillRect((int) this.xStart, (int) this.yStart + 22, (int) this.length, 3);
-            }
+            g2d.setColor(Color.black);
+            g2d.fillRoundRect((int) this.xStart, (int) this.yStart, (int) this.length, 30, 2, 2);
+            g2d.setPaint(Color.GRAY);
+            g2d.fillRect((int) this.xStart, (int) this.yStart + 15, (int) this.length, 3);
             if (this.selected) {
                 g2d.setColor(Color.BLUE);
                 g2d.drawRect((int) this.xStart, (int) this.yStart, (int) this.length, 30);
             }
         } else {
-            if (this.connected) {
-                g2d.setColor(Color.GREEN);
-                g2d.fillRoundRect((int) this.xStart, (int) this.yStart, 30, (int) this.length, 2, 2);
-                g2d.setPaint(Color.GRAY);
-                g2d.fillRect((int) this.xStart, (int) this.yStart + 22, (int) this.length, 3);
-            } else {
-                g2d.setColor(Color.RED);
-                g2d.fillRoundRect((int) this.xStart, (int) this.yStart, 30, (int) this.length, 2, 2);
-                g2d.setPaint(Color.GRAY);
-                g2d.fillRect((int) this.xStart + 22, (int) this.yStart, 3, (int) this.length);
-            }
+            g2d.setColor(Color.black);
+            g2d.fillRoundRect((int) this.xStart, (int) this.yStart, 30, (int) this.length, 2, 2);
+            g2d.setPaint(Color.GRAY);
+            g2d.fillRect((int) this.xStart + 15, (int) this.yStart, 3, (int) this.length);
             if (this.selected) {
                 g2d.setColor(Color.BLUE);
                 g2d.drawRect((int) this.xStart, (int) this.yStart, 30, (int) this.length);

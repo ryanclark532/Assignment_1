@@ -16,10 +16,9 @@ public class CreateSimPage {
     JButton refresh = new JButton("Refresh Current Road");
     JLabel lbl = new JLabel("Use arrow key to positon road");
     Draw draw = new Draw();
-    JButton save = new JButton();
+    JButton save = new JButton("Save and Exit");
     CreateSimPage(JFrame CreateSim) {
         this.CreateSim = CreateSim;
-
     }
 
     void load() {
@@ -69,16 +68,22 @@ public class CreateSimPage {
         details.add(refresh, c);
 
         JPanel addButtons = new JPanel();
-        addButtons.setLayout(new GridLayout(2, 2));
+        addButtons.setLayout(new GridLayout(3, 2));
         JButton addRoad = new JButton("Add Road");
         JButton addIntersection = new JButton("Add Intersection");
         JButton addTrafficLight = new JButton("Add Traffic Light");
+        JButton clear = new JButton("Clear Configuration");
+        JButton clearselect = new JButton("Clear Selected");
+        clear.addActionListener(actionEvent -> RoadList.index.clear());
         addRoad.addActionListener(actionEvent -> addRoad());
         addTrafficLight.addActionListener(actionEvent -> addTrafficLight());
         addIntersection.addActionListener(actionEvent -> addIntersection());
+        clearselect.addActionListener(actionEvent -> removeselected());
+        addButtons.add(clearselect);
         addButtons.add(addRoad);
         addButtons.add(addIntersection);
         addButtons.add(addTrafficLight);
+        addButtons.add(clear);
 
         two.add(addButtons);
         two.add(details);
@@ -87,7 +92,7 @@ public class CreateSimPage {
         savePanel.add(lbl);
         savePanel.add(save);
         two.add(savePanel);
-
+        lbl.setText("Please click on a road to select it\n use WASD to move the selected road");
         draw.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -100,16 +105,6 @@ public class CreateSimPage {
                 moveRoad(e);
             }
         });
-        Road first = new Road(200, 100, 300, "horizontal");
-        TrafficLight intersection = new TrafficLight(300, 300, "horizontal");
-        Road seocond = new Road(200, 330, 300, "horizontal");
-        Road up = new Road(200, 300, 100, "vertical");
-        Road down = new Road(200, 300, 330, "vertical");
-        RoadList.index.add(first);
-        RoadList.index.add(intersection);
-        RoadList.index.add(seocond);
-        RoadList.index.add(up);
-        RoadList.index.add(down);
         repaint();
 
     }
@@ -129,7 +124,7 @@ public class CreateSimPage {
             current.yStart -= 10;
             current.yFinish -= 10;
         } else {
-            JOptionPane.showInputDialog("no");
+            JOptionPane.showInputDialog("Please use WASD");
         }
         x.setText(String.valueOf(current.xStart));
         y.setText(String.valueOf(current.yStart));
@@ -152,7 +147,6 @@ public class CreateSimPage {
             y.setText(String.valueOf(current.yStart));
             orientation.setText(String.valueOf(current.orientation));
             length.setText(String.valueOf(current.length));
-            lbl.setText("Road selected");
             draw.grabFocus();
             current.selected = true;
 
@@ -220,21 +214,16 @@ public class CreateSimPage {
 
     void repaint() {
         Timer timer = new Timer(1, actionEvent -> {
-            for (Road i : RoadList.index) {
-                for (Road x : RoadList.index) {
-                    if (i == x) {
-                        continue;
-                    }
-                    i.connected = ((i.xFinish == x.xStart) && (i.yStart == x.yStart)) || ((x.xFinish == i.xStart) && (x.yStart == i.yStart)) ||
-                            ((x.xStart == i.xStart) && (x.yStart == i.yFinish)) || ((i.xStart == x.xStart) && (x.yFinish == i.yStart));
-
-                }
-            }
-
             CreateSim.repaint();
         });
         timer.start();
     }
 
-
+    void removeselected() {
+        for (Road i : RoadList.index) {
+            if (i.selected) {
+                RoadList.index.remove(i);
+            }
+        }
+    }
 }

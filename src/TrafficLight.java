@@ -61,12 +61,11 @@ public class TrafficLight extends Road {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = ((Graphics2D) g);
+        g2d.setPaint(Color.GRAY);
+        g2d.fillRect(((int) this.xStart), ((int) this.yStart), 30, 30);
         if (this.selected) {
             g2d.setPaint(Color.BLUE);
-            g2d.fillRect(((int) this.xStart), ((int) this.yStart), 30, 30);
-        } else {
-            g2d.setPaint(Color.GRAY);
-            g2d.fillRect(((int) this.xStart), ((int) this.yStart), 30, 30);
+            g2d.drawRect(((int) this.xStart), ((int) this.yStart), 30, 30);
         }
 
     }

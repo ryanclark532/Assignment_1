@@ -10,8 +10,12 @@ public class Intersection extends Road {
     @Override
     public void paint(Graphics g) {
         Graphics2D g2d = ((Graphics2D) g);
-        g2d.setColor(Color.GRAY);
+        g2d.setColor(Color.DARK_GRAY);
         g2d.fillRect(((int) this.xStart), ((int) this.yStart), ((int) this.length), ((int) this.length));
+        if (this.selected) {
+            g2d.setPaint(Color.BLUE);
+            g2d.drawRect(((int) this.xStart), ((int) this.yStart), 30, 30);
+        }
     }
 
     ArrayList<Road> links(Road next) {
