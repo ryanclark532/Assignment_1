@@ -11,7 +11,7 @@ public class LS {
 
     void save() throws IOException {
         JFileChooser file = new JFileChooser(System.getProperty("user.dir"));
-        file.showDialog(HomePage.mainFrame, "Save");
+        file.showDialog(Main.mainFrame, "Save");
         StringBuilder csvWriter = new StringBuilder();
         FileWriter output = new FileWriter(file.getSelectedFile().getAbsoluteFile() + ".csv");
         for (Road i : RoadList.index) {
@@ -37,7 +37,7 @@ public class LS {
     void load() throws IOException {
         RoadList.index.clear();
         JFileChooser file = new JFileChooser(System.getProperty("user.dir"));
-        file.showDialog(HomePage.mainFrame, "Open");
+        file.showDialog(Main.mainFrame, "Open");
         BufferedReader currentfile = new BufferedReader(new FileReader(file.getSelectedFile().getAbsoluteFile()));
         String row;
         while ((row = currentfile.readLine()) != null) {

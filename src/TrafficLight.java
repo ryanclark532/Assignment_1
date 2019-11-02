@@ -2,10 +2,10 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 public class TrafficLight extends Road {
-    public String topLight;
-    public String leftLight;
-    public String rightLight;
-    public String bottomLight;
+    String topLight;
+    String leftLight;
+    String rightLight;
+    String bottomLight;
 
     public TrafficLight(double xStart, double yStart, String orientation) {
         super(30, xStart, yStart, orientation);
@@ -15,7 +15,7 @@ public class TrafficLight extends Road {
         this.bottomLight = "red";
     }
 
-    public void change() {
+    void change() {
         Random random = new Random();
         switch (random.nextInt(4)) {
             case 1:

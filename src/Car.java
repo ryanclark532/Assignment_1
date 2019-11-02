@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Car extends JPanel {
-    String type;
-    double currentSpeed;
-    public Road current;
-    double x, y;
-    Road next;
+    private double currentSpeed;
+    private Road current;
+    private double x, y;
+    private Road next;
     private boolean direction;
-    Random random = new Random();
-    ArrayList<Road> links;
-    public Car(String type, double currentSpeed, double x, double y, boolean direction) {
-        this.type = type;
+    private Random random = new Random();
+
+    public Car(double currentSpeed, double x, double y, boolean direction) {
+
         this.currentSpeed = currentSpeed;
         this.x = x;
         this.y = y;
@@ -30,7 +29,7 @@ public class Car extends JPanel {
 
             } else {
                 g2d.setPaint(new Color(150, 150, 150));
-                g2d.fillRoundRect((int) this.x, (int) this.y, 40, 20, 10, 10);
+                g2d.fillRoundRect((int) this.x, (int) this.y, 30, 15, 8, 8);
 
             }
         } else {
@@ -40,7 +39,7 @@ public class Car extends JPanel {
 
             } else {
                 g2d.setPaint(new Color(150, 150, 150));
-                g2d.fillRoundRect((int) this.x, (int) this.y, 20, 30, 8, 10);
+                g2d.fillRoundRect((int) this.x, (int) this.y, 15, 30, 8, 8);
             }
         }
 
@@ -70,7 +69,7 @@ public class Car extends JPanel {
 
     }
 
-    void nextRoad() {
+    private void nextRoad() {
         for (Road i : RoadList.index) {
             if (i == current) {
                 continue;
@@ -103,20 +102,12 @@ public class Car extends JPanel {
 
     }
 
-    public void updatePosition() {
+    void updatePosition() {
         this.currentRoad();
         this.nextRoad();
-
+        ArrayList<Road> links;
         if (current.orientation.equals("horizontal")) {
             if (this.direction) {
-                for (Car i : CarList.index) {
-                    if (i == this) {
-                        continue;
-                    }
-                    if ((this.x >= i.x - 75) && (this.x <= i.x) && i.y == this.y) {
-                        this.slowDown();
-                    }
-                }
                 if (next instanceof Intersection || next instanceof TrafficLight) {
                     try {
                         if (next instanceof Intersection) {
@@ -130,11 +121,12 @@ public class Car extends JPanel {
                             x = random.nextInt(links.size());
                             road = links.get(x);
                         }
-                        if (((this.x >= next.xStart - 1) && this.x <= next.xStart)) {
+                        if (((this.x >= next.xStart - 5) && this.x <= next.xStart)) {
                             if (road.orientation.equals("vertical") && road.yStart < current.yStart) {
                                 this.x = road.xStart + 1;
                                 this.y = road.yFinish - 30;
                                 this.direction = false;
+
 
                             } else {
                                 this.x = road.xStart;
@@ -151,9 +143,17 @@ public class Car extends JPanel {
                             this.speedUp();
                         }
                     } catch (ClassCastException d) {
-
+                        move();
                     }
                     move();
+                }
+                for (Car i : CarList.index) {
+                    if (i == this) {
+                        continue;
+                    }
+                    if ((this.x >= i.x - 75) && (this.x <= i.x) && i.y == this.y) {
+                        this.slowDown();
+                    }
                 }
             } else {
                     for (Car i : CarList.index) {
@@ -200,7 +200,7 @@ public class Car extends JPanel {
                         }
 
                     } catch (ClassCastException r) {
-
+                        move();
                         }
                     }
 
@@ -253,9 +253,8 @@ public class Car extends JPanel {
                                 }
                             }
                         } catch (ClassCastException f) {
-
+                            move();
                         }
-
                     }
 
                     move();
@@ -301,7 +300,7 @@ public class Car extends JPanel {
                                 }
                             }
                         } catch (ClassCastException r) {
-
+                            move();
                         }
 
                     }
@@ -311,8 +310,8 @@ public class Car extends JPanel {
         }
     }
 
-    void move() {
-
+    private void move() {
+        this.currentRoad();
         if (currentSpeed > 0) {
             if (current.orientation.equals("horizontal")) {
                 if (this.direction) {

@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Road extends JPanel {
-    public double length;
-    public double xStart,yStart;
-    public double xFinish,yFinish;
-    public String orientation;
-    public boolean selected;
+    double length;
+    double xStart, yStart;
+    double xFinish, yFinish;
+    String orientation;
+    boolean selected;
     public Road(int length, double xStart, double yStart, String orientation) {
         this.length = length;
         this.xStart = xStart;

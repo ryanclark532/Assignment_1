@@ -5,18 +5,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class CreateSimPage {
-    JFrame CreateSim;
-    JPanel two = new JPanel();
-    Road current;
-    JTextField x = new JTextField();
-    JTextField y = new JTextField();
-    JTextField orientation = new JTextField();
-    JTextField length = new JTextField();
-    JButton refresh = new JButton("Refresh Current Road");
-    JLabel lbl = new JLabel("Use arrow key to positon road");
-    Draw draw = new Draw();
-    JButton save = new JButton("Save and Exit");
+class CreateSimPage {
+    private JFrame CreateSim;
+    private JPanel two = new JPanel();
+    private Road current;
+    private JTextField x = new JTextField();
+    private JTextField y = new JTextField();
+    private JTextField orientation = new JTextField();
+    private JTextField length = new JTextField();
+    private JButton refresh = new JButton("Refresh Current Road");
+    private JLabel lbl = new JLabel("Use arrow key to positon road");
+    private Draw draw = new Draw();
+    private JButton save = new JButton("Save and Exit");
     CreateSimPage(JFrame CreateSim) {
         this.CreateSim = CreateSim;
     }
@@ -78,7 +78,7 @@ public class CreateSimPage {
         addRoad.addActionListener(actionEvent -> addRoad());
         addTrafficLight.addActionListener(actionEvent -> addTrafficLight());
         addIntersection.addActionListener(actionEvent -> addIntersection());
-        clearselect.addActionListener(actionEvent -> removeselected());
+        clearselect.addActionListener(actionEvent -> removeSelected());
         addButtons.add(clearselect);
         addButtons.add(addRoad);
         addButtons.add(addIntersection);
@@ -110,7 +110,7 @@ public class CreateSimPage {
     }
 
 
-    void moveRoad(KeyEvent e) {
+    private void moveRoad(KeyEvent e) {
         if (e.getKeyChar() == 'a') {
             current.xStart -= 10;
             current.xFinish -= 10;
@@ -133,7 +133,7 @@ public class CreateSimPage {
 
     }
 
-    void roadClick(MouseEvent e) {
+    private void roadClick(MouseEvent e) {
         try {
             for (Road i : RoadList.index) {
                 if (i.selected) {
@@ -143,10 +143,10 @@ public class CreateSimPage {
                     current = i;
                 }
             }
-            x.setText(String.valueOf(current.xStart));
-            y.setText(String.valueOf(current.yStart));
-            orientation.setText(String.valueOf(current.orientation));
-            length.setText(String.valueOf(current.length));
+            x.setText("X: " + current.xStart);
+            y.setText("Y: " + current.yStart);
+            orientation.setText("Orientation: " + current.orientation);
+            length.setText("Length: " + current.length);
             draw.grabFocus();
             current.selected = true;
 
@@ -156,12 +156,12 @@ public class CreateSimPage {
 
     }
 
-    void refresh() {
+    private void refresh() {
         try {
-            current.xStart = Double.valueOf(x.getText());
-            current.yStart = Double.valueOf(y.getText());
+            current.xStart = Double.parseDouble(x.getText());
+            current.yStart = Double.parseDouble(y.getText());
             current.orientation = orientation.getText();
-            current.length = Double.valueOf(length.getText());
+            current.length = Double.parseDouble(length.getText());
             current.selected = true;
 
         } catch (NullPointerException e) {
@@ -169,13 +169,13 @@ public class CreateSimPage {
         }
     }
 
-    void save() {
-        HomePage.mainFrame.repaint();
+    private void save() {
+        Main.mainFrame.repaint();
         CreateSim.dispose();
     }
 
 
-    void addRoad() {
+    private void addRoad() {
         Road temp = new Road(200, 200, 300, "horizontal");
         RoadList.index.add(temp);
         for (Road i : RoadList.index) {
@@ -187,7 +187,7 @@ public class CreateSimPage {
         draw.grabFocus();
     }
 
-    void addTrafficLight() {
+    private void addTrafficLight() {
         TrafficLight temp = new TrafficLight(300, 300, "horizontal");
         RoadList.index.add(temp);
         for (Road i : RoadList.index) {
@@ -212,14 +212,12 @@ public class CreateSimPage {
 
     }
 
-    void repaint() {
-        Timer timer = new Timer(1, actionEvent -> {
-            CreateSim.repaint();
-        });
+    private void repaint() {
+        Timer timer = new Timer(1, actionEvent -> CreateSim.repaint());
         timer.start();
     }
 
-    void removeselected() {
+    private void removeSelected() {
         for (Road i : RoadList.index) {
             if (i.selected) {
                 RoadList.index.remove(i);
